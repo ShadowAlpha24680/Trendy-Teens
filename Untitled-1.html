@@ -294,7 +294,6 @@
       font-size: 1rem;
       border-radius: 4px;
       border: 1px solid #ccc;
-      /* Make sure select is visible */
       width: 100%;
       box-sizing: border-box;
     }
@@ -351,7 +350,7 @@
       TrendyTees
     </a>
     <nav aria-label="Primary navigation">
-      <a href="/index.html" >Home</a>
+      <a href="/index.html">Home</a>
       <a href="/shop.html" class="active" aria-current="page">Products</a>
       <a class="cart-link" aria-label="View shopping cart" id="view-cart-button" tabindex="0" role="button">
         Cart
@@ -407,7 +406,7 @@
         id: 'tshirt1',
         name: "Classic White Tee",
         price: 19.99,
-        image: "White.jfif",
+        image: "https://images.unsplash.com/photo-1520975860686-788e73816aad?auto=format&fit=crop&w=400&q=80",
         description: "A classic white tee that goes with everything.",
         sizes: ["S", "M", "L", "XL"]
       },
@@ -415,7 +414,7 @@
         id: 'tshirt2',
         name: "Graphic Logo Tee",
         price: 24.99,
-        image: "Design.jpg",
+        image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=400&q=80",
         description: "Show off your style with this graphic logo tee.",
         sizes: ["S", "M", "L"]
       },
@@ -423,7 +422,7 @@
         id: 'tshirt3',
         name: "Vintage Band Tee",
         price: 29.99,
-        image: "Vintage.jfif",
+        image: "https://images.unsplash.com/photo-1530845647475-f53efe370073?auto=format&fit=crop&w=400&q=80",
         description: "A vintage band tee for music lovers.",
         sizes: ["M", "L", "XL"]
       },
@@ -431,7 +430,7 @@
         id: 'tshirt4',
         name: "Striped Casual Tee",
         price: 22.49,
-        image: "Striped.webp",
+        image: "https://images.unsplash.com/photo-1530841649529-f84c5cdfa332?auto=format&fit=crop&w=400&q=80",
         description: "A casual striped tee for everyday wear.",
         sizes: ["S", "M", "L", "XL"]
       },
@@ -439,7 +438,7 @@
         id: 'tshirt5',
         name: "Bold Color Tee",
         price: 27.49,
-        image: "Bold.jpg",
+        image: "https://images.unsplash.com/photo-1512436992045-4d2a7b2ecad0?auto=format&fit=crop&w=400&q=80",
         description: "Make a statement with this bold color tee.",
         sizes: ["S", "M", "L"]
       },
@@ -447,7 +446,7 @@
         id: 'tshirt6',
         name: "Minimalist Tee",
         price: 21.0,
-        image: "Mini.jpg",
+        image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80",
         description: "A minimalist tee for a clean look.",
         sizes: ["M", "L"]
       },
@@ -455,7 +454,7 @@
         id: 'tshirt7',
         name: "Pocket Tee",
         price: 23.0,
-        image: "Pocket.jpeg",
+        image: "https://images.unsplash.com/photo-1503342217505-e0a5ae799cd8?auto=format&fit=crop&w=400&q=80",
         description: "A casual pocket tee for a laid-back style.",
         sizes: ["S", "M", "L", "XL"]
       },
@@ -463,7 +462,7 @@
         id: 'tshirt8',
         name: "Long Sleeve Tee",
         price: 32.5,
-        image: "Long.jpg",
+        image: "https://images.unsplash.com/photo-1512436992705-40b0dcac0a18?auto=format&fit=crop&w=400&q=80",
         description: "Stay warm with this stylish long sleeve tee.",
         sizes: ["M", "L", "XL"]
       }
@@ -508,185 +507,3 @@
         btn.addEventListener('click', (event) => {
           event.stopPropagation(); // Prevent triggering card click
           addToCart(product.id, product.sizes[0] || '');
-        });
-        productsGrid.appendChild(card);
-      });
-    }
-
-    // Show product details modal
-    function showProductDetails(product) {
-      modalImage.src = product.image;
-      modalImage.alt = product.name;
-      modalName.textContent = product.name;
-      modalDescription.textContent = product.description;
-      sizeSelect.innerHTML = '';
-      product.sizes.forEach(size => {
-        const option = document.createElement('option');
-        option.value = size;
-        option.textContent = size;
-        sizeSelect.appendChild(option);
-      });
-      modalAddToCart.dataset.productId = product.id;
-      productModal.classList.add('open');
-      sizeSelect.focus();
-      trapFocus(productModal);
-    }
-
-    // Hide product details modal
-    function hideProductDetails() {
-      productModal.classList.remove('open');
-      releaseFocusTrap();
-    }
-
-    // Add to cart with productId and size
-    function addToCart(productId, size) {
-      const key = `${productId}__${size}`;
-      if (cart[key]) {
-        cart[key]++;
-      } else {
-        cart[key] = 1;
-      }
-      updateCartCount();
-      updateCartItems();
-      animateButton(productId);
-    }
-
-    // Update cart icon count
-    function updateCartCount() {
-      const totalQty = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-      cartCountEl.textContent = totalQty;
-    }
-
-    // Update cart sidebar items and total
-    function updateCartItems() {
-      cartItemsContainer.innerHTML = '';
-      let total = 0;
-      for (const [key, qty] of Object.entries(cart)) {
-        const [id, size] = key.split('__');
-        const product = products.find(p => p.id === id);
-        if (!product) continue;
-        total += product.price * qty;
-
-        const item = document.createElement('div');
-        item.className = 'cart-item';
-        const sizeDisplay = size ? ` (Size: ${size})` : '';
-        item.innerHTML = `
-          <span>${product.name}${sizeDisplay} ×${qty}</span>
-          <button aria-label="Remove ${product.name}${sizeDisplay}" data-key="${key}">Remove</button>
-        `;
-        const removeBtn = item.querySelector('button');
-        removeBtn.addEventListener('click', () => removeFromCart(key));
-        cartItemsContainer.appendChild(item);
-      }
-      totalAmountEl.textContent = `Total: $${total.toFixed(2)}`;
-    }
-
-    // Remove item from cart by key
-    function removeFromCart(key) {
-      delete cart[key];
-      updateCartCount();
-      updateCartItems();
-    }
-
-    // Animate add to cart button on product listing
-    function animateButton(productId) {
-      const productCard = [...productsGrid.children].find(card => {
-        const nameEl = card.querySelector('.product-name');
-        const product = products.find(p => p.name === nameEl.textContent);
-        return product && product.id === productId;
-      });
-      if (!productCard) return;
-      const button = productCard.querySelector('button.add-to-cart-button');
-      button.style.transform = 'scale(0.95)';
-      button.style.backgroundColor = '#2563eb';
-      setTimeout(() => {
-        button.style.transform = 'scale(1)';
-        button.style.backgroundColor = '';
-      }, 150);
-    }
-
-    // Toggle cart sidebar open/close
-    function toggleCartSidebar() {
-      cartSidebar.classList.toggle('open');
-    }
-
-    // Close modal and cart if clicking outside content (modal or cart sidebar)
-    window.addEventListener('click', (event) => {
-      if (productModal.classList.contains('open') && !event.target.closest('.modal-content')) {
-        hideProductDetails();
-      }
-    });
-
-    // Close modal on pressing Escape key
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        if (productModal.classList.contains('open')) {
-          hideProductDetails();
-        }
-        if (cartSidebar.classList.contains('open')) {
-          cartSidebar.classList.remove('open');
-        }
-      }
-    });
-
-    // Event listeners
-    document.getElementById('view-cart-button').addEventListener('click', () => {
-      toggleCartSidebar();
-    });
-
-    modalAddToCart.addEventListener('click', () => {
-      const productId = modalAddToCart.dataset.productId;
-      const size = sizeSelect.value;
-      addToCart(productId, size);
-      hideProductDetails();
-    });
-
-    modalCloseBtn.addEventListener('click', hideProductDetails);
-
-    // Focus trap for modal - accessibility improvement
-    let focusedElementBeforeModal;
-    function trapFocus(element) {
-      focusedElementBeforeModal = document.activeElement;
-      const focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
-      const focusableElements = element.querySelectorAll(focusableElementsString);
-      if (focusableElements.length === 0) return;
-
-      const firstTabStop = focusableElements[0];
-      const lastTabStop = focusableElements[focusableElements.length - 1];
-
-      element.addEventListener('keydown', trapKeyDown);
-
-      function trapKeyDown(e) {
-        if (e.key === 'Tab') {
-          if (e.shiftKey) {
-            if (document.activeElement === firstTabStop) {
-              e.preventDefault();
-              lastTabStop.focus();
-            }
-          } else {
-            if (document.activeElement === lastTabStop) {
-              e.preventDefault();
-              firstTabStop.focus();
-            }
-          }
-        }
-      }
-
-      firstTabStop.focus();
-
-      element._trapKeyDownHandler = trapKeyDown;
-    }
-
-    function releaseFocusTrap() {
-      if (!productModal._trapKeyDownHandler) return;
-      productModal.removeEventListener('keydown', productModal._trapKeyDownHandler);
-      if (focusedElementBeforeModal) focusedElementBeforeModal.focus();
-    }
-
-    // Initial render
-    renderProducts();
-    updateCartCount();
-  </script>
-</body>
-</html>
-

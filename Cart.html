@@ -313,29 +313,6 @@
     });
 
     renderCart();
-    <nav aria-label="Primary navigation">
-      <a href="/index.html">Home</a>
-      <a href="/shop.html">Products</a>
-      <a href="/cart.html">Cart</a>
-    </nav>
-
-    // Highlight current active nav link based on current URL path
-    (() => {
-      const currentPath = window.location.pathname;
-      const navLinks = document.querySelectorAll('nav a');
-      navLinks.forEach(link => {
-        // Compare link href pathname with current pathname
-        const linkPath = new URL(link.href).pathname;
-        if (linkPath === currentPath) {
-          link.classList.add('active');
-          // Optional: disable pointer-events for active link
-          link.style.pointerEvents = 'none';
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.classList.remove('active');
-          link.style.pointerEvents = 'auto';
-          link.removeAttribute('aria-current');
-        }
   </script>
 </body>
 </html>
