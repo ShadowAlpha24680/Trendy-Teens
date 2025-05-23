@@ -285,7 +285,7 @@
           <td>${size}</td>
           <td>${quantity}</td>
           <td>$${priceTotal.toFixed(2)}</td>
-          <td><button aria-label="Remove ${product.name} size ${size}" data-key="${key}">Remove</button></td>
+          <td><button aria-label="Remove ${product.name} size ${size}" data-key="${key}" class="remove-button">Remove</button></td>
         `;
         const removeBtn = tr.querySelector('button');
         removeBtn.addEventListener('click', () => {
